@@ -46,7 +46,7 @@ function CVForm(props) {
           onInput={(e) => handleInputChange('summary', e.target.value)}
           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-400 focus:border-transparent box-border"
         />
-        {/* يمكن إضافة المزيد من الحقول مثل التعليم، الخبرات، المهارات، إلخ */}
+        {/* يمكن إضافة المزيد من الحقول مثل التعليم، الخبرات، المهارات */}
       </div>
     </div>
   );
