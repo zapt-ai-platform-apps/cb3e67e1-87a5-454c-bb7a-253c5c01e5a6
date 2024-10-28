@@ -10,4 +10,7 @@ export default defineConfig({
   resolve: {
     conditions: ['development', 'browser'],
   },
+  optimizeDeps: {
+    include: ['html2pdf.js'],
+  },
 });

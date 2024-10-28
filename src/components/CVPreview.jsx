@@ -1,15 +1,22 @@
-import html2pdf from 'html2pdf.js';
+import { createEffect } from 'solid-js';
 
 function CVPreview(props) {
+  let html2pdf;
+
+  createEffect(async () => {
+    const module = await import('html2pdf.js');
+    html2pdf = module.default;
+  });
+
   const downloadPDF = () => {
     const element = document.createElement('div');
     element.innerHTML = props.cvContent();
     const opt = {
-      margin:       0,
-      filename:     'CV.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2 },
-      jsPDF:        { unit: 'in', format: 'A4', orientation: 'portrait' }
+      margin: 0,
+      filename: 'CV.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'A4', orientation: 'portrait' },
     };
     html2pdf().from(element).set(opt).save();
   };
