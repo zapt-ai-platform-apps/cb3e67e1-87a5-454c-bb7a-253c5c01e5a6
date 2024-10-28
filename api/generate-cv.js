@@ -7,12 +7,18 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { cvData, language } = req.body;
+    const { fullName, jobTitle, language } = req.body;
 
     const prompt = `
-      قم بإنشاء سيرة ذاتية باستخدام البيانات التالية، وقدمها باللغة ${language}:
-      ${JSON.stringify(cvData)}
-      يجب أن تكون السيرة الذاتية منظمة وجاهزة للطباعة بصيغة HTML.
+      قم بإنشاء سيرة ذاتية احترافية وجذابة لشخص اسمه ${fullName} ويعمل ك${jobTitle}، وقدمها باللغة ${language}.
+      يجب أن تكون السيرة الذاتية منظمة، منسقة بشكل احترافي، وتشمل الأقسام التالية:
+      - المعلومات الشخصية
+      - الملخص المهني
+      - المهارات الرئيسية
+      - الخبرات العملية (قم بتوليد خبرات مناسبة)
+      - التعليم
+      - الشهادات والجوائز (إن وجدت)
+      قدم السيرة الذاتية بصيغة HTML جاهزة للطباعة، مع مراعاة تنسيق النصوص والعناوين.
     `;
 
     const result = await createEvent('chatgpt_request', {

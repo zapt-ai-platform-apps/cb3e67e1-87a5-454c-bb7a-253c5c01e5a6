@@ -4,23 +4,28 @@ import LanguageSelector from './components/LanguageSelector';
 import CVPreview from './components/CVPreview';
 
 function App() {
-  const [formData, setFormData] = createSignal({});
+  const [fullName, setFullName] = createSignal('');
+  const [jobTitle, setJobTitle] = createSignal('');
   const [selectedLanguage, setSelectedLanguage] = createSignal('العربية');
   const [cvContent, setCvContent] = createSignal('');
   const [loading, setLoading] = createSignal(false);
   const [currentPage, setCurrentPage] = createSignal('formPage');
 
   const generateCV = async () => {
+    if (!fullName() || !jobTitle()) {
+      alert('يرجى ملء جميع الحقول المطلوبة.');
+      return;
+    }
     setLoading(true);
     try {
-      const cvData = formData();
       const response = await fetch('/api/generate-cv', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          cvData,
+          fullName: fullName(),
+          jobTitle: jobTitle(),
           language: selectedLanguage(),
         }),
       });
@@ -41,8 +46,16 @@ function App() {
           <h1 class="text-4xl font-bold text-purple-600">مولد السيرة الذاتية</h1>
         </div>
         <Show when={currentPage() === 'formPage'}>
-          <CVForm formData={formData} setFormData={setFormData} />
-          <LanguageSelector selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+          <CVForm
+            fullName={fullName}
+            setFullName={setFullName}
+            jobTitle={jobTitle}
+            setJobTitle={setJobTitle}
+          />
+          <LanguageSelector
+            selectedLanguage={selectedLanguage}
+            setSelectedLanguage={setSelectedLanguage}
+          />
           <button
             onClick={generateCV}
             class={`w-full mt-6 px-6 py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition duration-300 ease-in-out transform hover:scale-105 cursor-pointer ${
